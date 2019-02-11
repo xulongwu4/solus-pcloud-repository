@@ -3,3 +3,6 @@
 *.eopkg
 common/*
 */Makefile
+Makefile
+Makefile.common
+Makefile.iso
