@@ -1,0 +1,5 @@
+*/abi_*
+*.xml
+*.eopkg
+common/*
+*/Makefile
