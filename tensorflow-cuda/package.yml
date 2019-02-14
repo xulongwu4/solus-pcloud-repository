@@ -42,6 +42,10 @@ rundeps    :
     - python-keras-preprocessing
     - python-mock
     - python-tensorboard
+conflicts  :
+    - tensorflow
+    - c-api :
+        - tensorflow-c-api
 setup      : |
     %patch -p1 < $pkgfiles/import_bazelrc.patch
 
