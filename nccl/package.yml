@@ -1,6 +1,6 @@
 name       : nccl
 version    : 2.4.2
-release    : 2
+release    : 3
 source     :
     - https://github.com/NVIDIA/nccl/archive/v2.4.2-1.tar.gz : e3dd04b22eb541394bd818e5f78ac23a09cc549690d5d55d6fccc1a36155385a
 license    : BSD-3-Clause
@@ -16,5 +16,5 @@ build      : |
 install    : |
     install -dm00755 $installdir/usr/include $installdir/%libdir% $installdir/usr/share/doc/nccl
     install -Dm00644 -t $installdir/usr/include build/include/*
-    cp -v build/lib/* $installdir/%libdir%
+    cp -Pv build/lib/* $installdir/%libdir%
     install -Dm00644 LICENSE.txt $installdir/usr/share/doc/nccl/LICENSE
