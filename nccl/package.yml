@@ -16,5 +16,6 @@ build      : |
 install    : |
     install -dm00755 $installdir/usr/include $installdir/%libdir% $installdir/usr/share/doc/nccl
     install -Dm00644 -t $installdir/usr/include build/include/*
+    # Preserve symlinks
     cp -Pv build/lib/* $installdir/%libdir%
     install -Dm00644 LICENSE.txt $installdir/usr/share/doc/nccl/LICENSE
