@@ -1,0 +1,14 @@
+diff --git a/cmake/Dependencies.cmake b/cmake/Dependencies.cmake
+index 0d62237c8..4317b7166 100644
+--- a/cmake/Dependencies.cmake
++++ b/cmake/Dependencies.cmake
+@@ -457,6 +457,9 @@ if(USE_FFMPEG)
+     message("Found FFMPEG/LibAV libraries")
+     include_directories(SYSTEM ${FFMPEG_INCLUDE_DIR})
+     list(APPEND Caffe2_DEPENDENCY_LIBS ${FFMPEG_LIBRARIES})
++    if (USE_CUDA)
++        list(APPEND Caffe2_CUDA_DEPENDENCY_LIBS ${FFMPEG_LIBRARIES})
++    endif()
+   else ()
+     message("Not compiling with FFmpeg. Suppress this warning with -DUSE_FFMPEG=OFF")
+     caffe2_update_option(USE_FFMPEG OFF)

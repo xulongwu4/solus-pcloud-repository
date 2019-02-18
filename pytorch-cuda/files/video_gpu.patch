@@ -1,0 +1,13 @@
+diff --git a/caffe2/video/CMakeLists.txt b/caffe2/video/CMakeLists.txt
+index 204f81616..762d6dd6d 100644
+--- a/caffe2/video/CMakeLists.txt
++++ b/caffe2/video/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ if(USE_OPENCV AND OpenCV_FOUND AND USE_FFMPEG AND FFMPEG_FOUND)
+         message(STATUS "Including video processing operators")
+   # ---[ GPU files
++  file(GLOB tmp optical_flow.cc video_decoder.cc video_io.cc)
++  set(Caffe2_GPU_SRCS ${Caffe2_GPU_SRCS} ${tmp})
+   # ------[ general GPU
+   file(GLOB tmp *_gpu.cc)
+   set(Caffe2_GPU_SRCS ${Caffe2_GPU_SRCS} ${tmp})

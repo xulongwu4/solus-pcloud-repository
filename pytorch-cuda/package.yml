@@ -1,0 +1,77 @@
+name       : pytorch-cuda
+version    : 1.0.1
+release    : 1
+source     :
+    - git|https://github.com/pytorch/pytorch : v1.0.1
+license    : BSD-3-Clause
+component  : programming.python
+summary    : Tensors and Dynamic neural networks in Python with strong GPU acceleration
+description: |
+    PyTorch is an optimized tensor library for deep learning using GPUs and CPUs
+builddeps  :
+    #- pkgconfig(eigen3) # Cannot use system eigen until it is updated to 3.3.6
+    # https://bitbucket.org/eigen/eigen/commits/034b6c3e101792a3cc3ccabd9bfaddcabe85bb58?at=default
+    - pkgconfig(gflags)
+    #- pkgconfig(libavcodec)
+    - pkgconfig(libglog)
+    - pkgconfig(libzmq)
+    - pkgconfig(ompi)
+    - pkgconfig(openblas)
+    - pkgconfig(opencv)
+    - pkgconfig(protobuf) # System protobuf does not build with tensorrt
+    - pkgconfig(python3)
+    - leveldb-devel
+    - lmdb-devel
+    - numpy
+    - python-typing
+    - pyyaml
+    - snappy-devel
+    - g++-7
+    - libgcc-7
+    - libgomp-7
+    - libstdc++-7
+    - nvidia-glx-driver-common
+    - pkgconfig(cuda)
+    - pkgconfig(cudnn)
+    - nccl-devel
+    - tensorrt-devel
+rundeps    :
+    - numpy
+    - python-cffi
+    - pyyaml
+conflicts  :
+    - pytorch
+build      : |
+    #export CC=/usr/local/bin/gcc
+    #export CXX=/usr/local/bin/g++
+    #export CUDNN_INCLUDE_DIR=/usr/include/cuda
+    #export EXTRA_CAFFE2_CMAKE_FLAGS="-DCUDA_TOOLKIT_ROOT_DIR=/usr/share/cuda -DUSE_TENSORRT=ON -DCCACHE_WRAPPER_PATH=/usr/local/bin -DCMAKE_VERBOSE_MAKEFILE=ON"
+
+    export CFLAGS=${CFLAGS//"-mtune=generic -march=x86-64"/"-mtune=haswell -march=haswell"}
+    export CXXFLAGS=${CXXFLAGS//"-mtune=generic -march=x86-64"/"-mtune=haswell -march=haswell"}
+
+    export CUDA_HOME=%libdir%/cuda
+    export CUDAHOSTCXX=/usr/local/bin/g++
+    export TORCH_CUDA_ARCH_LIST="6.1"
+
+    export BUILD_BINARY=1
+    #export USE_FFMPEG=1 # Could not build this with CUDA. Might need libav and ffmpeg to be compiled with CUDA support as well
+    export USE_LEVELDB=1
+    export USE_LMDB=1
+    export USE_OPENCV=1 # Might need opencv to be compiled with CUDA support. Leave it as is for now.
+    export EXTRA_CAFFE2_CMAKE_FLAGS="-DBLAS=OpenBLAS
+                                     -DBUILD_CUSTOM_PROTOBUF=OFF
+                                     -DUSE_GFLAGS=ON
+                                     -DUSE_GLOG=ON
+                                     -DUSE_OPENMP=ON
+                                     -DUSE_ZMQ=ON"
+                                     #-DUSE_SYSTEM_EIGEN_INSTALL=ON
+                                     #-DUSE_TENSORRT=ON # Cannot build with tensorrt no matter how hard I tried
+                                     #-DCUDA_TOOLKIT_ROOT_DIR=/usr/share/cuda -DCCACHE_WRAPPER_PATH=/usr/local/bin
+
+    # Force to use system protobuf
+    rm -rfv third_party/protobuf
+
+    %python3_setup
+install    : |
+    %python3_install --skip-build
