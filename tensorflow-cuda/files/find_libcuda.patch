@@ -1,0 +1,13 @@
+diff --git a/third_party/gpus/cuda_configure.bzl b/third_party/gpus/cuda_configure.bzl
+index 69f4599..db706fd 100644
+--- a/third_party/gpus/cuda_configure.bzl
++++ b/third_party/gpus/cuda_configure.bzl
+@@ -780,7 +780,7 @@ def _find_libs(repository_ctx, cuda_config):
+     """
+     cpu_value = cuda_config.cpu_value
+     return {
+-        "cuda": _find_cuda_lib("cuda", repository_ctx, cpu_value, cuda_config.cuda_toolkit_path),
++        "cuda": _find_cuda_lib("cuda", repository_ctx, cpu_value, "/usr"),
+         "cudart": _find_cuda_lib(
+             "cudart",
+             repository_ctx,
