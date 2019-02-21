@@ -104,8 +104,9 @@ install    : |
     tensorflow/c/generate-pc.sh --prefix=/usr --libdir=lib64 --version=$version
     install -Dm00644 tensorflow.pc $installdir/usr/lib64/pkgconfig/tensorflow.pc
     #install -Dm00755 -t $installdir/usr/lib64 bazel-bin/tensorflow/lib*.so
-    install -Dm00755 bazel-bin/tensorflow/libtensorflow.so $installdir/%libdir%/libtensorflow.so
-    install -Dm00755 bazel-bin/tensorflow/libtensorflow_cc.so $installdir/%libdir%/libtensorflow_cc.so
+    #install -Dm00755 bazel-bin/tensorflow/libtensorflow.so $installdir/%libdir%/libtensorflow.so
+    #install -Dm00755 bazel-bin/tensorflow/libtensorflow_cc.so $installdir/%libdir%/libtensorflow_cc.so
+    install -Dm00755 bazel-bin/tensorflow/libtensorflow{,_cc}.so $installdir/%libdir%/
     ln -s %libdir%/python3.6/site-packages/tensorflow/libtensorflow_framework.so $installdir/%libdir%/libtensorflow_framework.so
     install -dm00755 $installdir/usr/include
     cp -r bazel-genfiles/tensorflow/include/tensorflow $installdir/usr/include
