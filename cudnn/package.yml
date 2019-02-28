@@ -1,8 +1,8 @@
 name       : cudnn
-version    : 7.4.2
-release    : 2
+version    : 7.5.0
+release    : 3
 source     :
-    - https://p-def7.pcloud.com/cBZPOz37RZa2fPYRZZZuPUtI7Z2ZZIGzZkZLJpw1Zf0Zi0Zf5Zt5ZO5ZakZaVZmVZ1XZyVZaZlZXkZ87ZeN6x7ZNXfA55hpKaupQeKhEUr8pQHkBcz7/cudnn-10.0-linux-x64-v7.4.2.24.tgz : 2edfc86a02b50d17e88c478955a332e6a1e8174e7e53a3458b4ea51faf02daa3
+    - https://p-def2.pcloud.com/cBZRsMLVLZPawCjLZ8kOdZXZ0plkA7Z2ZZIGzZkZimSkMZRkZOXZmZa5ZiXZNVZVJZSVZEkZnXZw5ZRXZv0ZP7Z0REd7ZLv4RSclgFF7aOXNbtDYan4H8CFNV/cudnn-10.1-linux-x64-v7.5.0.56.tgz : c31697d6b71afe62838ad2e57da3c3c9419c4e9f5635d14b683ebe63f904fbc8
 license    : EULA
 component  : programming.library
 summary    : The NVIDIA CUDA® Deep Neural Network library

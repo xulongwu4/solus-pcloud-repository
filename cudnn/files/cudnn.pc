@@ -3,6 +3,6 @@ includedir=/usr/include
 
 Name: cuda
 Description: CUDA Deep Neural Network Library
-Version: 7.4
+Version: 7.5
 Libs: -L${libdir} -lcudnn
 Cflags: -I${includedir}/cuda
