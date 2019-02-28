@@ -101,7 +101,7 @@ install    : |
     # This is for tensorflow 1.12
     short_version=`echo %version% | cut -f1,2 -d.`
     for f in $installdir/%libdir%/cuda/lib64/lib*.so; do
-        if [[ ! -e $installdir/%libdir%/$(basename $f).${short_version} ]]; then
+        if [[ ! -e $installdir/%libdir%/cuda/lib64/$(basename $f).${short_version} ]]; then
             ln -sf $(basename $f) $installdir/%libdir%/cuda/lib64/$(basename $f).${short_version}
         fi
     done
