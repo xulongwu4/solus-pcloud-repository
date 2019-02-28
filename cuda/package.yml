@@ -98,6 +98,14 @@ install    : |
         ln -sf %libdir%/cuda/lib64/`basename $f` $installdir/%libdir%
     done
 
+    # This is for tensorflow 1.12
+    short_version=`echo %version% | cut -f1,2 -d.`
+    for f in $installdir/%libdir%/cuda/lib64/lib*.so; do
+        if [[ ! -e $installdir/%libdir%/$(basename $f).${short_version} ]]; then
+            ln -sf $(basename $f) $installdir/%libdir%/cuda/lib64/$(basename $f).${short_version}
+        fi
+    done
+
     # nvvm
     ln -sf %libdir%/cuda/nvvm/bin/cicc $installdir/usr/bin
     ln -sf %libdir%/cuda/nvvm/include/nvvm.h $installdir/usr/include/cuda
