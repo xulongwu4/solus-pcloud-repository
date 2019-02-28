@@ -1,8 +1,8 @@
 name       : cuda
-version    : 10.0.130
-release    : 3
+version    : 10.1.105
+release    : 4
 source     :
-    - https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux : 92351f0e4346694d0fcb4ea1539856c9eb82060c25654463bfd8574ec35ee39a
+    - https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.105_418.39_linux.run : 33ac60685a3e29538db5094259ea85c15906cbd0f74368733f4111eab6187c8f
 extract    : no
 license    : EULA
 component  : programming.library
@@ -22,19 +22,14 @@ rundeps    :
     - openjdk-8
 patterns   :
     - devel : /usr/lib64/cuda/samples
-setup      : |
+build      : |
     CUDA_INSTALL_FILE=$(basename $sources/cuda_${version}_*_linux*)
     sh $sources/$CUDA_INSTALL_FILE --extract=$workdir
-build      : |
-    ./cuda-linux.${version}-*.run -noprompt -nosymlink -no-man-page -prefix=$PKG_BUILD_DIR/cuda_build
-    ./cuda-samples.${version}-*.run -noprompt -prefix=$PKG_BUILD_DIR/cuda_build/samples -cudaprefix=%libdir%/cuda
-
-    pushd $PKG_BUILD_DIR/cuda_build
-    %patch -p1 < $pkgfiles/gcc-8.patch
-    popd
+    #./cuda-linux.${version}-*.run -noprompt -nosymlink -no-man-page -prefix=$PKG_BUILD_DIR/cuda_build
+    #./cuda-samples.${version}-*.run -noprompt -prefix=$PKG_BUILD_DIR/cuda_build/samples -cudaprefix=%libdir%/cuda
 install    : |
-    install -dm00755 $installdir/%libdir%
-    mv $PKG_BUILD_DIR/cuda_build $installdir/%libdir%/cuda
+    install -dm00755 $installdir/%libdir% $installdir/usr/bin
+    mv $workdir/cuda-toolkit $installdir/%libdir%/cuda
 
     pushd $installdir/%libdir%/cuda
 
@@ -55,7 +50,6 @@ install    : |
     #mv nsightee_plugins $installdir/%libdir%/nsight/
     rm -v $installdir/%libdir%/cuda/bin/nsight
     rm -v $installdir/%libdir%/cuda/bin/nvvp
-    install -dm00755 $installdir/usr/bin
     ln -sf %libdir%/cuda/libnsight/nsight $installdir/usr/bin
     ln -sf %libdir%/cuda/libnvvp/nvvp $installdir/usr/bin
     install -dm00755 $installdir/usr/share/applications
@@ -63,7 +57,7 @@ install    : |
     install -Dm00644 $pkgfiles/nvvp.desktop $installdir/usr/share/applications/nvvp.desktop
 
     # Binaries
-    find $installdir/%libdir%/cuda/{bin,samples} -type f -name "*install*" -delete
+    find $installdir/%libdir%/cuda/bin -type f -name "*install*" -delete
     rm -v $installdir/%libdir%/cuda/bin/nvcc.profile
     install -Dm00644 $pkgfiles/nvcc.profile $installdir/%libdir%/cuda/bin/nvcc.profile
     for f in $installdir/%libdir%/cuda/bin/*; do
@@ -74,14 +68,23 @@ install    : |
     install -dm00755 $installdir/usr/share/doc/cuda
     mv doc/html $installdir/usr/share/doc/cuda
     mv doc/pdf $installdir/usr/share/doc/cuda
+    mv doc/EULA.txt $installdir/usr/share/doc/cuda
+    rm -rfv EULA.txt
     install -dm00755 $installdir/usr/share/man/man{1,7}
     install -Dm00644 -t $installdir/usr/share/man/man1 doc/man/man1/*
     install -Dm00644 -t $installdir/usr/share/man/man7 doc/man/man7/*
     rm -rfv doc
 
+    unlink include
+    unlink lib64
+    mv targets/x86_64-linux/include include
+    mv targets/x86_64-linux/lib lib64
+    rm -rfv targets
+
     # Header files
     find $installdir/%libdir%/cuda/include -type f -print0 | xargs -0 chmod 644
     install -dm00755 $installdir/usr/include/cuda
+    install -Dm00644 $workdir/cublas/include/cublas_version.h include/
     for f in $installdir/%libdir%/cuda/include/*; do
         ln -sf %libdir%/cuda/include/`basename $f` $installdir/usr/include/cuda
     done
@@ -107,8 +110,12 @@ install    : |
     install -Dm00644 -t $installdir/usr/lib64/pkgconfig $pkgfiles/*.pc
 
     # samples
+    mv $workdir/cuda-samples samples
+    find $installdir/%libdir%/cuda/samples -type f -name "*install*" -delete
     find $installdir/%libdir%/cuda/samples -type f -name "findgllib.mk" -print0 | 
         xargs -0 sed -i '57i\    GLPATH    ?= /usr/lib64/nvidia\n    GLLINK    ?= -L/usr/lib64/nvidia\n    DFLT_PATH ?= /usr/lib64'
+    find $installdir/%libdir%/cuda/samples -type f -name "Makefile" -print0 | 
+        xargs -0 sed -i -e 's/usr\/local\/cuda/usr\/lib64\/cuda/g'
 
     # extras/{CUPTI,Debugger}
     for dir in CUPTI Debugger; do
@@ -120,6 +127,12 @@ install    : |
             ln -sf %libdir%/cuda/extras/$dir/lib64/`basename $f` $installdir/%libdir%
         done
     done
+
+    install -dm00755 $installdir/usr/include/cuda/Sanitizer
+    for f in $installdir/%libdir%/cuda/extras/Sanitizer/include/*; do
+        ln -sf %libdir%/cuda/extras/Sanitizer/include/`basename $f` $installdir/usr/include/cuda/Sanitizer
+    done
+    ln -sf %libdir%/cuda/extras/Sanitizer/libsanitizer-public.so $installdir/%libdir%
 
     popd
 

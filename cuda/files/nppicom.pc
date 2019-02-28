@@ -3,6 +3,6 @@ includedir=/usr/include
 
 Name: nppicom
 Description: NVIDIA Performance Primitives - Image Processing - Compression
-Version: 10.0
+Version: 10.1
 Libs: -L${libdir} -lnppicom
 Cflags: -I${includedir}/cuda

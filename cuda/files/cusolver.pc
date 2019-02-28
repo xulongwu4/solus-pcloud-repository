@@ -3,6 +3,6 @@ includedir=/usr/include
 
 Name: cusolver
 Description: CUDA Dense and Sparse Direct Linear Solvers and Eigen Solvers
-Version: 10.0
+Version: 10.1
 Libs: -L${libdir} -lcusolver
 Cflags: -I${includedir}/cuda 
