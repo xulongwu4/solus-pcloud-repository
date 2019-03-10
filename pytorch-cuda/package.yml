@@ -1,6 +1,6 @@
 name       : pytorch-cuda
 version    : 1.0.1
-release    : 1
+release    : 2
 source     :
     - git|https://github.com/pytorch/pytorch : v1.0.1
 license    : BSD-3-Clause
@@ -9,8 +9,7 @@ summary    : Tensors and Dynamic neural networks in Python with strong GPU accel
 description: |
     PyTorch is an optimized tensor library for deep learning using GPUs and CPUs
 builddeps  :
-    #- pkgconfig(eigen3) # Cannot use system eigen until it is updated to 3.3.6
-    # https://bitbucket.org/eigen/eigen/commits/034b6c3e101792a3cc3ccabd9bfaddcabe85bb58?at=default
+    - pkgconfig(eigen3) # Cannot use system eigen until it is updated to 3.3.6
     - pkgconfig(gflags)
     #- pkgconfig(libavcodec)
     - pkgconfig(libglog)
@@ -64,8 +63,8 @@ build      : |
                                      -DUSE_GFLAGS=ON
                                      -DUSE_GLOG=ON
                                      -DUSE_OPENMP=ON
+                                     -DUSE_SYSTEM_EIGEN_INSTALL=ON
                                      -DUSE_ZMQ=ON"
-                                     #-DUSE_SYSTEM_EIGEN_INSTALL=ON
                                      #-DUSE_TENSORRT=ON # Cannot build with tensorrt no matter how hard I tried
                                      #-DCUDA_TOOLKIT_ROOT_DIR=/usr/share/cuda -DCCACHE_WRAPPER_PATH=/usr/local/bin
 
