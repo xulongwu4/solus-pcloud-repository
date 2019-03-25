@@ -1,6 +1,6 @@
 name       : pytorch-cuda
 version    : 1.0.1
-release    : 2
+release    : 3
 source     :
     - git|https://github.com/pytorch/pytorch : v1.0.1
 license    : BSD-3-Clause
@@ -9,9 +9,9 @@ summary    : Tensors and Dynamic neural networks in Python with strong GPU accel
 description: |
     PyTorch is an optimized tensor library for deep learning using GPUs and CPUs
 builddeps  :
-    - pkgconfig(eigen3) # Cannot use system eigen until it is updated to 3.3.6
+    - pkgconfig(eigen3)
     - pkgconfig(gflags)
-    #- pkgconfig(libavcodec)
+    - pkgconfig(libavcodec)
     - pkgconfig(libglog)
     - pkgconfig(libzmq)
     - pkgconfig(ompi)
@@ -40,12 +40,9 @@ rundeps    :
     - pyyaml
 conflicts  :
     - pytorch
+setup      : |
+    %patch -p1 < $pkgfiles/ffmpeg.patch
 build      : |
-    #export CC=/usr/local/bin/gcc
-    #export CXX=/usr/local/bin/g++
-    #export CUDNN_INCLUDE_DIR=/usr/include/cuda
-    #export EXTRA_CAFFE2_CMAKE_FLAGS="-DCUDA_TOOLKIT_ROOT_DIR=/usr/share/cuda -DUSE_TENSORRT=ON -DCCACHE_WRAPPER_PATH=/usr/local/bin -DCMAKE_VERBOSE_MAKEFILE=ON"
-
     export CFLAGS=${CFLAGS//"-mtune=generic -march=x86-64"/"-mtune=haswell -march=haswell"}
     export CXXFLAGS=${CXXFLAGS//"-mtune=generic -march=x86-64"/"-mtune=haswell -march=haswell"}
 
@@ -54,7 +51,7 @@ build      : |
     export TORCH_CUDA_ARCH_LIST="6.1"
 
     export BUILD_BINARY=1
-    #export USE_FFMPEG=1 # Could not build this with CUDA. Might need libav and ffmpeg to be compiled with CUDA support as well
+    export USE_FFMPEG=1
     export USE_LEVELDB=1
     export USE_LMDB=1
     export USE_OPENCV=1 # Might need opencv to be compiled with CUDA support. Leave it as is for now.
