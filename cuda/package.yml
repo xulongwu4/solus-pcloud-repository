@@ -50,8 +50,8 @@ install    : |
     #mv nsightee_plugins $installdir/%libdir%/nsight/
     rm -v $installdir/%libdir%/cuda/bin/nsight
     rm -v $installdir/%libdir%/cuda/bin/nvvp
-    ln -sf %libdir%/cuda/libnsight/nsight $installdir/usr/bin
-    ln -sf %libdir%/cuda/libnvvp/nvvp $installdir/usr/bin
+    ln -sv %libdir%/cuda/libnsight/nsight $installdir/usr/bin
+    ln -sv %libdir%/cuda/libnvvp/nvvp $installdir/usr/bin
     install -dm00755 $installdir/usr/share/applications
     install -Dm00644 $pkgfiles/nsight.desktop $installdir/usr/share/applications/nsight.desktop
     install -Dm00644 $pkgfiles/nvvp.desktop $installdir/usr/share/applications/nvvp.desktop
@@ -61,7 +61,7 @@ install    : |
     rm -v $installdir/%libdir%/cuda/bin/nvcc.profile
     install -Dm00644 $pkgfiles/nvcc.profile $installdir/%libdir%/cuda/bin/nvcc.profile
     for f in $installdir/%libdir%/cuda/bin/*; do
-        ln -sf %libdir%/cuda/bin/`basename $f` $installdir/usr/bin
+        ln -sv %libdir%/cuda/bin/`basename $f` $installdir/usr/bin
     done
 
     # Docs
@@ -84,9 +84,9 @@ install    : |
     # Header files
     find $installdir/%libdir%/cuda/include -type f -print0 | xargs -0 chmod 644
     install -dm00755 $installdir/usr/include/cuda
-    install -Dm00644 $workdir/cublas/include/cublas_version.h include/
+    #mv include/*blas* $installdir/usr/include
     for f in $installdir/%libdir%/cuda/include/*; do
-        ln -sf %libdir%/cuda/include/`basename $f` $installdir/usr/include/cuda
+        ln -sv %libdir%/cuda/include/`basename $f` $installdir/usr/include/cuda
     done
 
     # Libraries
@@ -94,15 +94,16 @@ install    : |
     rm -v $installdir/%libdir%/cuda/lib64/libOpenCL.so*
     # We don't use the libraries in `stubs` subdir
     rm -rfv $installdir/%libdir%/cuda/lib64/stubs
+    #mv lib64/*blas* $installdir/%libdir%
     for f in lib64/lib*.so* lib64/lib*.a; do
-        ln -sf %libdir%/cuda/lib64/`basename $f` $installdir/%libdir%
+        ln -sv %libdir%/cuda/lib64/`basename $f` $installdir/%libdir%
     done
 
     # nvvm
-    ln -sf %libdir%/cuda/nvvm/bin/cicc $installdir/usr/bin
-    ln -sf %libdir%/cuda/nvvm/include/nvvm.h $installdir/usr/include/cuda
+    ln -sv %libdir%/cuda/nvvm/bin/cicc $installdir/usr/bin
+    ln -sv %libdir%/cuda/nvvm/include/nvvm.h $installdir/usr/include/cuda
     for f in nvvm/lib64/lib*.so*; do
-        ln -sf %libdir%/cuda/nvvm/lib64/`basename $f` $installdir/%libdir%
+        ln -sv %libdir%/cuda/nvvm/lib64/`basename $f` $installdir/%libdir%
     done
 
     # pkgconfig
@@ -121,18 +122,18 @@ install    : |
     for dir in CUPTI Debugger; do
         install -dm00755 $installdir/usr/include/cuda/$dir
         for f in $installdir/%libdir%/cuda/extras/$dir/include/*; do
-            ln -sf %libdir%/cuda/extras/$dir/include/`basename $f` $installdir/usr/include/cuda/$dir
+            ln -sv %libdir%/cuda/extras/$dir/include/`basename $f` $installdir/usr/include/cuda/$dir
         done
         for f in $installdir/%libdir%/cuda/extras/$dir/lib64/*; do
-            ln -sf %libdir%/cuda/extras/$dir/lib64/`basename $f` $installdir/%libdir%
+            ln -sv %libdir%/cuda/extras/$dir/lib64/`basename $f` $installdir/%libdir%
         done
     done
 
     install -dm00755 $installdir/usr/include/cuda/Sanitizer
     for f in $installdir/%libdir%/cuda/extras/Sanitizer/include/*; do
-        ln -sf %libdir%/cuda/extras/Sanitizer/include/`basename $f` $installdir/usr/include/cuda/Sanitizer
+        ln -sv %libdir%/cuda/extras/Sanitizer/include/`basename $f` $installdir/usr/include/cuda/Sanitizer
     done
-    ln -sf %libdir%/cuda/extras/Sanitizer/libsanitizer-public.so $installdir/%libdir%
+    ln -sv %libdir%/cuda/extras/Sanitizer/libsanitizer-public.so $installdir/%libdir%
 
     popd
 

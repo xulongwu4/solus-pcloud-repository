@@ -1,8 +1,8 @@
 name       : tensorrt
-version    : 5.0.2.6
-release    : 3
+version    : 5.1.2
+release    : 5
 source     :
-    - https://p-def2.pcloud.com/D4Z8YpG7RZrsQCYRZZZCGUtI7Z2ZZIGzZkZaE0MqZN5Z9VZT5Za36x7ZddhGy5RhChpmHD16Yxkg2VhFO5rV/TensorRT-5.0.2.6.Ubuntu-18.04.1.x86_64-gnu.cuda-10.0.cudnn7.3.tar.gz : 4310010d6bb2b613953a579a34c729efbf5d5defc49c68cf20969751962d901c
+    - https://p-def5.pcloud.com/cBZzM35T4ZPjcPv4Z8kOdZXZLtdWA7Z2ZZJsXZkZKObGtZpJZM5Z40ZUXZ7VZg0Zj5Z9VZuJZ8XZy5Z05ZkkZ90Z6bYU7Z8ktqIvqhQQBw3Xae1fBN0bmrnu5y/TensorRT-5.1.2.2.Ubuntu-18.04.1.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz : e77309d0ecf5f8aff59f51f7d3a8ae7b30601ddb4734453e48a83fdc398616bd
 license    : EULA
 component  : programming.library
 summary    : A platform for high-performance deep learning inference
@@ -18,12 +18,15 @@ install    : |
     install -dm00755 $installdir/usr/include
     install -Dm00644 -t $installdir/usr/include include/*.h
 
-    install -dm00755 $installdir/usr/lib64
-    cp -r lib/lib* $installdir/usr/lib64
-    rm -rv $installdir/usr/lib64/libprotobuf*.a
+    install -dm00755 $installdir/%libdir%
+    cp -r lib/lib* $installdir/%libdir%
+    rm -rv $installdir/%libdir%/libprotobuf*.a
+
+    install -dm00755 $installdir/usr/bin
+    install -Dm00755 bin/trtexec $installdir/usr/bin
 
     pushd python
-    pip3 install --no-deps --root="%installroot%" tensorrt-*.whl
+    pip3 install --no-deps --root="%installroot%" tensorrt-*cp36*.whl
     popd
 
     pushd uff
@@ -40,5 +43,4 @@ install    : |
 
     install -dm00755 $installdir/usr/share/tensorrt
     cp -r data/ $installdir/usr/share/tensorrt
-    cp -r python/data/resnet50 $installdir/usr/share/tensorrt/data
     cp -r samples/ $installdir/usr/share/tensorrt
