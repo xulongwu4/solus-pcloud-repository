@@ -1,6 +1,6 @@
 name       : tensorflow-cuda
 version    : 1.13.1
-release    : 3
+release    : 4
 source     :
     - https://github.com/tensorflow/tensorflow/archive/v1.13.1.tar.gz : 7cd19978e6bc7edc2c847bce19f95515a742b34ea5e28e4389dade35348f58ed
 license    : Apache-2.0
@@ -28,7 +28,7 @@ builddeps  :
     - nvidia-glx-driver-common
     - pkgconfig(cuda)
     - pkgconfig(cudnn)
-    - nccl-devel
+    - pkgconfig(nccl)
     - tensorrt-devel
 rundeps    :
     - python-absl-py
@@ -44,8 +44,6 @@ conflicts  :
         - tensorflow-c-api
 setup      : |
     %patch -p1 < $pkgfiles/cuda_config.patch
-    %patch -p1 < $pkgfiles/protobuf_temp_fix_cuda10.1_apply.patch
-    cp $pkgfiles/protobuf_temp_fix_cuda10.1.patch $workdir/third_party
 
     cp -a $workdir $PKG_BUILD_DIR/py3build
 
@@ -64,7 +62,7 @@ setup      : |
     #export TF_NEED_TENSORRT=1
     #export TENSORRT_INSTALL_PATH=%libdir%
     export TF_NEED_TENSORRT=0
-    export TF_NCCL_VERSION=2.4.6
+    export TF_NCCL_VERSION=2.4.7
     export TF_CUDA_COMPUTE_CAPABILITIES=6.1 # GTX 1060
     export TF_CUDA_CLANG=0
     export GCC_HOST_COMPILER_PATH=/usr/bin/gcc
