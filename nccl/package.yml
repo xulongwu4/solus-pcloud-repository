@@ -1,8 +1,8 @@
 name       : nccl
-version    : 2.4.6
-release    : 4
+version    : 2.4.7
+release    : 5
 source     :
-    - https://github.com/NVIDIA/nccl/archive/v2.4.6-1.tar.gz : ea4421061a7b9c454f2e088f68bfdbbcefab80ce81cafc70ee6c7742b1439591
+    - https://github.com/NVIDIA/nccl/archive/v2.4.7-1.tar.gz : 451c8a20743947e0f6b1385c87f17685a86c0c0a01ecc2c80e50bd472965b157
 license    : BSD-3-Clause
 component  : programming.library
 summary    : Optimized primitives for collective multi-GPU communication
@@ -16,4 +16,4 @@ install    : |
     install -dm00755 $installdir/usr/include $installdir/%libdir%
     install -Dm00644 -t $installdir/usr/include build/include/*
     # Preserve symlinks
-    cp -Pv build/lib/* $installdir/%libdir%
+    cp -rPv build/lib/* $installdir/%libdir%

@@ -1,8 +1,8 @@
 name       : tensorrt
-version    : 5.1.2
-release    : 5
+version    : 5.1.5.0
+release    : 6
 source     :
-    - https://p-def5.pcloud.com/cBZzM35T4ZPjcPv4Z8kOdZXZLtdWA7Z2ZZJsXZkZKObGtZpJZM5Z40ZUXZ7VZg0Zj5Z9VZuJZ8XZy5Z05ZkkZ90Z6bYU7Z8ktqIvqhQQBw3Xae1fBN0bmrnu5y/TensorRT-5.1.2.2.Ubuntu-18.04.1.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz : e77309d0ecf5f8aff59f51f7d3a8ae7b30601ddb4734453e48a83fdc398616bd
+    - https://p-def5.pcloud.com/cBZdBhEi4ZKCRCb8Z8kOdZXZO7a9A7Z2ZZJsXZkZWh606Z87ZDJZw7ZPVZjkZxkZpXZgJZRVZRXZU0Zu0ZV5Z3VZQoPI7ZTjB9yxYONVViyBCj32Mj4Rxd5XJk/TensorRT-5.1.5.0.Ubuntu-18.04.2.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz : d247fd1270ea20bda896fdd8dff6ae320b981addfa071c3a1246b7c27023e011
 license    : EULA
 component  : programming.library
 summary    : A platform for high-performance deep learning inference
