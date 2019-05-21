@@ -34,7 +34,7 @@ builddeps  :
     - nvidia-glx-driver-common
     - pkgconfig(cuda)
     - pkgconfig(cudnn)
-    - nccl-devel
+    - pkgconfig(nccl)
     - tensorrt-devel
 rundeps    :
     - numpy
