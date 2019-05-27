@@ -8,6 +8,8 @@ component  : programming.python
 summary    : Docstring style checker
 description: |
     pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
+rundeps    :
+    - python-snowballstemmer
 build      : |
     %python3_setup
 install    : |
