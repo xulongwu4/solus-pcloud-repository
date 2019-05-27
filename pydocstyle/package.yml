@@ -1,0 +1,14 @@
+name       : pydocstyle
+version    : 3.0.0
+release    : 1
+source     :
+    - https://github.com/PyCQA/pydocstyle/archive/3.0.0.tar.gz : 99d4c0b584eca25a179766a1e4c7e69284bc94eb9abf6d8e010d69b5a22596ec
+license    : MIT
+component  : programming.python
+summary    : Docstring style checker
+description: |
+    pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
+build      : |
+    %python3_setup
+install    : |
+    %python3_install
