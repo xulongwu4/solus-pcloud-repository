@@ -1,5 +1,5 @@
 diff --git a/tools/build_pytorch_libs.py b/tools/build_pytorch_libs.py
-index 432fed3bc..33cb1c79b 100644
+index 432fed3bc..268186b7d 100644
 --- a/tools/build_pytorch_libs.py
 +++ b/tools/build_pytorch_libs.py
 @@ -190,7 +190,8 @@ def run_cmake(version,
@@ -12,11 +12,12 @@ index 432fed3bc..33cb1c79b 100644
          USE_MKLDNN=USE_MKLDNN,
          USE_NCCL=USE_NCCL,
          NCCL_EXTERNAL=USE_NCCL,
-@@ -206,6 +207,7 @@ def run_cmake(version,
+@@ -206,6 +207,8 @@ def run_cmake(version,
          USE_REDIS=os.getenv('USE_REDIS'),
          USE_GLOG=os.getenv('USE_GLOG'),
          USE_GFLAGS=os.getenv('USE_GFLAGS'),
 +        USE_ZMQ=check_env_flag('USE_ZMQ'),
++        ASMJIT_SRC_DIR=os.getenv('ASMJIT_SRC_DIR'),
          WERROR=os.getenv('WERROR'))
  
      if USE_GLOO_IBVERBS:
