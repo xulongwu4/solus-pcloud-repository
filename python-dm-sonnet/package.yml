@@ -1,4 +1,4 @@
-name       : dm-sonnet
+name       : python-dm-sonnet
 version    : 1.34
 release    : 1
 source     :
@@ -17,8 +17,8 @@ rundeps    :
     - python-absl-py
     - python-contextlib2
     - python-semanticversion
+    - python-tensorflow-probability
     - python-wrapt
-    - tensorflow-probability
 build      : |
     bazel build :install
     bazel shutdown

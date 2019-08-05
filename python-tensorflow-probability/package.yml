@@ -1,4 +1,4 @@
-name       : tensorflow-probability
+name       : python-tensorflow-probability
 version    : 0.7
 release    : 2
 source     :
