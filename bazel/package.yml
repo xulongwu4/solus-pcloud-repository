@@ -1,8 +1,8 @@
 name       : bazel
-version    : 0.20.0
-release    : 7
+version    : 0.26.1
+release    : 8
 source     :
-    - https://github.com/bazelbuild/bazel/releases/download/0.20.0/bazel-0.20.0-dist.zip : 1945afa84fd8858b0a3c68c09915a4bc81065c61df2591387b2985e2297d30bd
+    - https://github.com/bazelbuild/bazel/releases/download/0.26.1/bazel-0.26.1-dist.zip : c0e94f8f818759f3f67af798c38683520c540f469cb41aea8f5e5a0e43f11600
 license    : Apache-2.0
 component  : programming.tools
 summary    : A fast, scalable, multi-language and extensible build system
@@ -17,10 +17,7 @@ rundeps    :
     - openjdk-8
 build      : |
     bash compile.sh
-    output/bazel build \
-        --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8 \
-        --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8 \
-        //scripts:bazel-complete.bash
+    output/bazel build //scripts:bazel-complete.bash
     output/bazel shutdown
 install    : |
     install -Dm00755 output/bazel $installdir/usr/bin/bazel
