@@ -1,0 +1,25 @@
+name       : kcachegrind
+version    : 19.08.1
+release    : 1
+source     :
+    - https://github.com/KDE/kcachegrind/archive/v19.08.1.tar.gz : b806ea04c2ae7dbeb42e111ab5eb419fa62b73ccc72b532ecc3bd5a3102ac807
+license    : GPL-2.0-or-later
+component  : programming.tools
+summary    : GUI to profilers such as Valgrind 
+description: |
+    KCachegrind is a KDE GUI to visualize profiling data. It's mainly used as visualization frontend for data measured by Cachegrind/Callgrind tools from the Valgrind package, but there are converters for other measurement tools available.
+builddeps  :
+    - pkgconfig(Qt5Core)
+    - extra-cmake-modules
+    - karchive-devel
+    - kdbusaddons-devel
+    - kdoctools-devel
+    - ki18n-devel
+    - kio-devel
+    - kwidgetsaddons-devel
+setup      : |
+    %cmake_ninja -DBUILD_TESTING=OFF
+build      : |
+    %ninja_build
+install    : |
+    %ninja_install
