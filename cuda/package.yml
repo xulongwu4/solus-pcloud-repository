@@ -1,8 +1,8 @@
 name       : cuda
-version    : 10.1.105
-release    : 4
+version    : 10.1.243
+release    : 7
 source     :
-    - https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.105_418.39_linux.run : 33ac60685a3e29538db5094259ea85c15906cbd0f74368733f4111eab6187c8f
+    - http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run : e7c22dc21278eb1b82f34a60ad7640b41ad3943d929bebda3008b72536855d31
 extract    : no
 license    : EULA
 component  : programming.library
@@ -17,17 +17,15 @@ builddeps  :
     - pkgconfig(libpulse)
     - pkgconfig(xcomposite)
     - pkgconfig(xcursor)
+    - pkgconfig(xkbcommon)
     - pkgconfig(xrandr)
 rundeps    :
     - openjdk-8
-patterns   :
-    - devel : /usr/lib64/cuda/samples
 build      : |
     CUDA_INSTALL_FILE=$(basename $sources/cuda_${version}_*_linux*)
-    sh $sources/$CUDA_INSTALL_FILE --extract=$workdir
-    #./cuda-linux.${version}-*.run -noprompt -nosymlink -no-man-page -prefix=$PKG_BUILD_DIR/cuda_build
-    #./cuda-samples.${version}-*.run -noprompt -prefix=$PKG_BUILD_DIR/cuda_build/samples -cudaprefix=%libdir%/cuda
+    sh $sources/$CUDA_INSTALL_FILE --override --extract=$workdir
 install    : |
+    %patch -p1 < $pkgfiles/gcc_version.patch
     install -dm00755 $installdir/%libdir% $installdir/usr/bin
     mv $workdir/cuda-toolkit $installdir/%libdir%/cuda
 
@@ -60,9 +58,6 @@ install    : |
     find $installdir/%libdir%/cuda/bin -type f -name "*install*" -delete
     rm -v $installdir/%libdir%/cuda/bin/nvcc.profile
     install -Dm00644 $pkgfiles/nvcc.profile $installdir/%libdir%/cuda/bin/nvcc.profile
-    for f in $installdir/%libdir%/cuda/bin/*; do
-        ln -sv %libdir%/cuda/bin/`basename $f` $installdir/usr/bin
-    done
 
     # Docs
     install -dm00755 $installdir/usr/share/doc/cuda
@@ -83,32 +78,15 @@ install    : |
 
     # Header files
     find $installdir/%libdir%/cuda/include -type f -print0 | xargs -0 chmod 644
-    install -dm00755 $installdir/usr/include/cuda
-    #mv include/*blas* $installdir/usr/include
-    for f in $installdir/%libdir%/cuda/include/*; do
-        ln -sv %libdir%/cuda/include/`basename $f` $installdir/usr/include/cuda
-    done
 
     # Libraries
     # Remove OpenCL
     rm -v $installdir/%libdir%/cuda/lib64/libOpenCL.so*
     # We don't use the libraries in `stubs` subdir
     rm -rfv $installdir/%libdir%/cuda/lib64/stubs
-    #mv lib64/*blas* $installdir/%libdir%
-    for f in lib64/lib*.so* lib64/lib*.a; do
-        ln -sv %libdir%/cuda/lib64/`basename $f` $installdir/%libdir%
-    done
 
     # nvvm
     ln -sv %libdir%/cuda/nvvm/bin/cicc $installdir/usr/bin
-    ln -sv %libdir%/cuda/nvvm/include/nvvm.h $installdir/usr/include/cuda
-    for f in nvvm/lib64/lib*.so*; do
-        ln -sv %libdir%/cuda/nvvm/lib64/`basename $f` $installdir/%libdir%
-    done
-
-    # pkgconfig
-    install -dm00755 $installdir/usr/lib64/pkgconfig
-    install -Dm00644 -t $installdir/usr/lib64/pkgconfig $pkgfiles/*.pc
 
     # samples
     mv $workdir/cuda-samples samples
@@ -118,24 +96,10 @@ install    : |
     find $installdir/%libdir%/cuda/samples -type f -name "Makefile" -print0 | 
         xargs -0 sed -i -e 's/usr\/local\/cuda/usr\/lib64\/cuda/g'
 
-    # extras/{CUPTI,Debugger}
-    for dir in CUPTI Debugger; do
-        install -dm00755 $installdir/usr/include/cuda/$dir
-        for f in $installdir/%libdir%/cuda/extras/$dir/include/*; do
-            ln -sv %libdir%/cuda/extras/$dir/include/`basename $f` $installdir/usr/include/cuda/$dir
-        done
-        for f in $installdir/%libdir%/cuda/extras/$dir/lib64/*; do
-            ln -sv %libdir%/cuda/extras/$dir/lib64/`basename $f` $installdir/%libdir%
-        done
-    done
-
-    install -dm00755 $installdir/usr/include/cuda/Sanitizer
-    for f in $installdir/%libdir%/cuda/extras/Sanitizer/include/*; do
-        ln -sv %libdir%/cuda/extras/Sanitizer/include/`basename $f` $installdir/usr/include/cuda/Sanitizer
-    done
-    ln -sv %libdir%/cuda/extras/Sanitizer/libsanitizer-public.so $installdir/%libdir%
-
     popd
+
+    install -Dm00644 $pkgfiles/cuda.conf $installdir/usr/share/ld.so.conf.d/cuda.conf
+    install -Dm00644 $pkgfiles/70-cuda.sh $installdir/usr/share/defaults/etc/profile.d/70-cuda.sh
 
     # Clean up
     find $installdir/%libdir%/cuda -name "*.bat" -delete
