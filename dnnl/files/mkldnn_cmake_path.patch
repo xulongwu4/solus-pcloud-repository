@@ -1,0 +1,15 @@
+diff --git a/cmake/gen_mkldnn_compat_cmakes.cmake b/cmake/gen_mkldnn_compat_cmakes.cmake
+index 007d166..0bd1f6d 100644
+--- a/cmake/gen_mkldnn_compat_cmakes.cmake
++++ b/cmake/gen_mkldnn_compat_cmakes.cmake
+@@ -19,8 +19,8 @@
+ # Parameters:
+ #   DIR -- path to cmake install dir
+ 
+-set(DNNL_DIR ${DIR}/dnnl)
+-set(MKLDNN_DIR ${DIR}/mkldnn)
++set(DNNL_DIR $ENV{DESTDIR}${DIR}/dnnl)
++set(MKLDNN_DIR $ENV{DESTDIR}${DIR}/mkldnn)
+ 
+ file(MAKE_DIRECTORY ${MKLDNN_DIR})
+ 
