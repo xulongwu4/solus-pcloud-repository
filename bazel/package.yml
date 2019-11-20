@@ -1,8 +1,8 @@
 name       : bazel
-version    : 1.1.0
-release    : 10
+version    : 1.2.0
+release    : 11
 source     :
-    - https://github.com/bazelbuild/bazel/releases/download/1.1.0/bazel-1.1.0-dist.zip : 4b66a8c93af7832ed32e7236cf454a05f3aa06d25a8576fc3f83114f142f95ab
+    - https://github.com/bazelbuild/bazel/releases/download/1.2.0/bazel-1.2.0-dist.zip : 9cb46b0a18b9166730307a0e82bf4c02281a1cc6da0fb11239e6fe4147bdee6e
 license    : Apache-2.0
 component  : programming.tools
 summary    : A fast, scalable, multi-language and extensible build system
