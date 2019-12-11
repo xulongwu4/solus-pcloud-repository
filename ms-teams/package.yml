@@ -1,0 +1,32 @@
+name       : ms-teams
+version    : 1.2.00.32451
+release    : 1
+source     :
+    - https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/teams_1.2.00.32451_amd64.deb : 28d8a0e644a4bb9d4ee9295953b97b7fa6558b8a9d1d28363a594f5cde1c05dc
+license    : Distributable
+component  : network.clients
+summary    : Microsoft Teams for Linux
+description: |
+    Linux desktop client for Microsoft Teams
+strip      : no
+extract    : no
+builddeps  :
+    - pkgconfig(alsa)
+    - pkgconfig(gnome-keyring-1)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libsecret-1)
+    - pkgconfig(xkbfile)
+    - pkgconfig(xscrnsaver)
+setup      : |
+    ar xf $sources/teams_${version}_amd64.deb
+    tar xf data.tar.xz
+install    : |
+    install -dm00755 $installdir
+    cp -r usr $installdir
+
+    # Link to system libraries
+    rm $installdir/usr/share/teams/lib{EGL,GLESv2}.so
+    ln -s %libdir%/lib{EGL,GLESv2}.so $installdir/usr/share/teams
+
+    # Clean up
+    find $installdir/usr -type d -empty -print -delete
