@@ -1,0 +1,17 @@
+name       : msr-tools
+version    : 1.3
+release    : 1
+source     :
+    - https://github.com/intel/msr-tools/archive/msr-tools-1.3.tar.gz : 9b87245ee091a798184e447066e9e0d7709b7c81f5e6ad55f2b958c1aa50c4a3
+license    : GPL-2.0-or-later
+component  : system.utils
+summary    : Collection of tools for reading/writing CPU model specific registers
+description: |
+    Collection of tools for reading/writing CPU model specific registers
+setup      : |
+    %patch -p1 < $pkgfiles/add_destdir.patch
+build      : |
+    %make
+install    : |
+    install -dm00755 $installdir/usr/sbin
+    %make_install
