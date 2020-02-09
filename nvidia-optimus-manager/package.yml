@@ -1,18 +1,18 @@
 name       : nvidia-optimus-manager
-version    : 0.2.1
-release    : 4
+version    : 0.3
+release    : 5
 source     :
-    - https://github.com/xulongwu4/nvidia-optimus-manager/archive/v0.2.1.tar.gz : 64638bbdaf6fe57748917e42165e878a5089e77097335fc68e824d4c43dd5e10
+    - https://github.com/xulongwu4/nvidia-optimus-manager/archive/v0.3.tar.gz : 1f0cce7d59215bd32cebaf29cccc8eec752b24a74ff07dc459123a4f6430dd8c
 license    : MIT
 component  :
     - system.utils
     - lightdm-integration : desktop.lightdm
-summary    : 
+summary    :
     - A python script to manage the status of NVIDIA graphics card on an Optimus setup for Solus linux
     - lightdm-integration : nvidia-optimus-manager integration for LightDM
 description: |
     A python script to manage the status of NVIDIA graphics card on an Optimus setup for Solus linux
-rundeps  :
+rundeps    :
     - pciutils
 patterns   :
     - lightdm-integration :
